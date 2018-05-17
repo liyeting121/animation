@@ -1,0 +1,96 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>index</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            -webkit-user-select: none;
+            background: url("img/bg.jpg") 0% 50%;
+            overflow: hidden;
+        }
+
+        .ball {
+            display: block;
+            background: black;
+            border-radius: 50%;
+            position: absolute;
+            height: 100px;
+            width: 100px;
+            top: 0;
+            left: 0;
+            background: -webkit-radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+            background: -moz-radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+            background-image: radial-gradient(30px 30px, circle, rgba(218, 212, 225, 1), rgba(2, 2, 2, 1));
+        }
+
+        .shadow {
+            box-shadow: 4px 31px 31px -18px rgba(0, 0, 0, 0.8)
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body>
+
+<script>
+    $(document).ready(function () {
+        var $wW = $(window).width();
+        var $wH = $(window).height();
+        var timer = null;
+        var ySpeed = 0;
+        var xSpeed = 0;
+        $(document).click(function (ev) {
+            ySpeed = 0;
+            xSpeed = 0;
+            $('.ball').remove();
+            ev = ev || window.event;
+            var X = ev.pageX;
+            var Y = ev.pageY;
+            var t = Y - 50;
+            var l = X - 50;
+            $(' <div class="ball"></div>').appendTo($('body'));
+            $('.ball').css({
+                left: l + 'px',
+                top: t + 'px'
+            });
+            play();
+        });
+        function play() {
+            clearInterval(timer);
+            timer = setInterval(function () {
+                xSpeed += 0.5;
+                ySpeed += 5;
+                var L = $('.ball').offset().left + xSpeed;
+                var T = $('.ball').offset().top + ySpeed;
+                if (T > $wH - $('.ball').height() - 20) {
+                    T = $wH - $('.ball').height() - ySpeed;
+                    $('.ball').addClass('shadow')
+                    ySpeed *= -1;
+                    ySpeed *= 0.8;
+                    xSpeed *= 0.5;
+                } else {
+                    $('.ball').removeClass('shadow')
+                }
+                if (L > $wW - $('.ball').width() - 20) {
+                    T = $wH - $('.ball').height();
+                    $('.ball').addClass('shadow')
+                    clearInterval(timer)
+                }
+                $('.ball').css({
+                    left: L + 'px',
+                    top: T + 'px'
+                });
+            }, 30)
+        }
+    });
+</script>
+</body>
+</html>
