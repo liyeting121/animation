@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>index</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+
+        body { background-color: #ffe9c3; }
+
+        #header { width: 1000px; margin: 0 auto }
+
+        #wrap { color: #ffffff; position: relative; }
+
+        #wrap ul.big { display: block; width: 100%; height: 58px; position: absolute; top: 11px; left: 0;
+            background-color: #1e1e1e; padding-left: 18px; border-radius: 15px; }
+
+        #wrap .mask { display: block; width: 100%; height: 30px; position: absolute; top: 11px;
+            left: 0; background-color: #3c3c3c; z-index: 1; padding-left: 18px; border-radius: 15px 15px 0 0; }
+
+        #wrap .maskbox { display: block; width: 100px; height: 68px; position: absolute; top: 6px;
+            left: 9px; background: url('img/menu_this.png') no-repeat center; z-index: 1; }
+
+        #wrap ul.big li { position: relative; margin-left: 10px; float: left; width: 100px; display: block;
+            height: 58px; font-size: 15px; line-height: 58px; cursor: pointer; z-index: 2; }
+
+        #wrap ul.big li a { color: #ffffff; font-family: "Microsoft yahei" }
+
+        #wrap ul.big li .nodes { display: none; background-color: #48bed8; width: 80px; overflow: hidden; position: absolute; top: 63px; left: -10px; border-radius: 10px; }
+
+        #wrap ul.small li { position: relative; margin-left: 0; float: left; width: 80px; display: block;
+            height: 38px; line-height: 38px; cursor: pointer; text-align: center; z-index: 999; border-bottom: 1px dashed #ffffff; overflow: hidden; }
+
+        #wrap ul.small li a { display: block; color: #ffffff; font-family: "Microsoft yahei"; font-size: 12px; }
+
+        #wrap ul.small li a:hover { font-family: "Microsoft yahei"; font-size: 12px; color: #000000; background-color: #ffffff; }
+
+
+    </style>
+
+
+</head>
+<body>
+<div id="header">
+    <div id="wrap">
+        <div class="mask"></div>
+        <div class="maskbox"></div>
+        <ul class="big">
+            <li><a href="">官方首页</a></li>
+            <li>
+                <a href="">集团概况</a>
+                <div class="nodes">
+                    <ul class="small">
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="">公司简介</a>
+                <div class="nodes">
+                    <ul class="small">
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="">总部扶持</a>
+                <div class="nodes">
+                    <ul class="small">
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="">品牌形象</a>
+                <div class="nodes">
+                    <ul class="small">
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="">产品案例</a>
+                <div class="nodes">
+                    <ul class="small">
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                        <li><a href="">公司简介</a></li>
+                    </ul>
+                </div>
+            </li>
+            <li><a href="">示范单位</a></li>
+            <li><a href="">查看更多</a></li>
+            <li><a href="">联系我们</a></li>
+        </ul>
+    </div>
+</div>
+
+<script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+
+<script>
+    var $li = $('#wrap>ul>li:first').siblings().andSelf()
+    var lW = $li.eq(0).offset().left - 9;
+    var $maskBox = $('.maskbox');
+    var timer = null;
+    $li.hover(function () {
+        clearTimeout(timer)
+        $(this).children('.nodes').stop().slideDown()
+        $maskBox.stop().animate({
+            left: $(this).offset().left - lW + 'px'
+        }, 300);
+        if ($(this).children('.nodes')[0].style.display != 'none')
+            clearTimeout(timer)
+    }, function () {
+        timer = setTimeout(function () {
+            $maskBox.stop().animate({
+                left: '10px'
+            }, 500)
+        }, 1250)
+        $(this).children('.nodes').stop().slideUp()
+    })
+
+</script>
+</body>
+</html>

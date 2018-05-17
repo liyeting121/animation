@@ -1,0 +1,165 @@
+<!DOCTYPE HTML>
+<html>
+<head onselectstart='return false'>
+    <title>拖拽排序菜单</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+        
+        body{ background-color: #222;}
+        
+        .boxs { box-shadow: 0 0 2px #474747; }
+
+        #warp { width: 660px; height: 420px; margin: 100px auto; position: relative; }
+
+        #warp .box { width: 200px; height: 120px; cursor: pointer; moz-user-select: -moz-none; -moz-user-select: none; -o-user-select: none; -khtml-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; border-radius: 10px; position: absolute; padding: 10px; }
+
+        .box img { border-radius: 10px; width: 200px; height: 120px; box-shadow: 0 0 2px #222222; }
+
+        #warp .box.down { z-index: 2; }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+
+
+</head>
+<body>
+<div id="warp" class="boxs">
+    <div class="box"><img src="img/1.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/2.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/3.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/4.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/5.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/6.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/7.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/8.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/9.png" alt="" width="200" height="120"></div>
+</div>
+<script>
+    //jq对象每次获取的$obj.eq(0)虽然都是同样的内容,但是每次获取的对象都是不等的
+    var $box = $('#warp .box');
+    var $warp = $('#warp');
+    var w = 220;
+    var h = 140;
+    var length = $box.length;
+    var arr = [];
+    for (var i = 0; i < length; i++)arr[i] = i;  //将arr存储0到8 对应box的序列号
+    //pitch 布局初始化
+    (function () {
+        //根据每个box的序列号来确定他的位置并且将top作为每个box的属性存储起来
+        $box.each(function (i) {
+            this.top = parseInt(i / 3) * h;
+            this.left = parseInt(i % 3) * w;
+            $(this).css({
+                top: this.top + 'px',
+                left: this.left + 'px'
+            });
+        });
+    })();
+    $box.mousedown(function (e) {
+        //按下鼠标时的X坐标
+        var eX = e.pageX;
+        var eY = e.pageY;
+        var This = this;
+        //对象的top和left值
+        var sL = $(this).position().left;
+        var sT = $(this).position().top;
+        $(this).addClass('down');
+        var moveIndex;
+        for (var i = 0; i < arr.length; i++) {
+            if ($box.eq(arr[i])[0] == $(this)[0]) {
+                moveIndex = i;
+                break;
+            };
+        };
+        $(document).mousemove(function (e) {
+            var nX = e.pageX;
+            var nY = e.pageY;
+            nX = Math.min($(window).width() - w/1.5, nX);
+            nY = Math.min($(window).height() - h /1.5, nY);
+            nX = Math.max(0+w/3, nX);
+            nY = Math.max(0+w/3, nY);
+            // 移动对象的top值+现在鼠标位置的X坐标-对象原本的X坐标 =对象的准确top值,left类比
+            var top = sT + nY - eY;
+            var left = sL + nX - eX;
+            //This在上面存过了,代表了被移动对象
+            $(This).css({
+                left: left + 'px',
+                top: top + 'px'
+            });
+            //将对象的top和left以及最大top和最大left存起来
+            var ThisT = top;
+            var ThisB = top + h;
+            var ThisL = left;
+            var ThisR = left + w;
+            //  console.log($(This)[0].left)
+            for (var i = 0; i < arr.length; i++) {  //遍历数组将对应的i带给对应的box
+                var $obj = $box.eq(arr[i]);   //将obj依次引用box
+                if ($obj[0] != $(This)[0]) {    //判断是否是自己,如果是
+                    var mL = $obj[0].left + w / 2; //存储每个obj的中心点
+                    var mT = $obj[0].top + h / 2;
+                    //被移动对象的top最大值大于目标对象的top中心并且top小于目标对象的top中心,left类
+                    if ((ThisB > mT && ThisT < mT) && (ThisR > mL && ThisL < mL)) {
+                        //把移动的box的下标存到x中
+                        var x = arr[moveIndex];
+                        var l = $obj[0].left;
+                        var t = $obj[0].top;
+                        //目标对象的下标位于被移动对象下标在数组arr中的排序的后面 例如[0,1,2,3,4,5,6,7,8]=>[1,2,3,4,0,5,6,7,8]
+                        if (moveIndex < i) {
+                            //先确定有几个需要运动,除去被移动目标的本身所以i-1 然后确认都有谁移动
+                            for (var j = i - 1; j >= moveIndex; j--) {
+                                //将上一个对象的left和top值赋给下一个对象;
+                                $box.eq(arr[j + 1])[0].top = $box.eq(arr[j])[0].top;
+                                $box.eq(arr[j + 1])[0].left = $box.eq(arr[j])[0].left;
+                                //进行运动
+                                boxMove($box.eq(arr[j + 1]));
+                            };
+                        } else {
+                            //从后往前运动
+                            for (var j = i; j < moveIndex; j++) {
+                                //将上下一个对象的left和top值赋给当前对象;
+                                $box.eq(arr[j])[0].top = $box.eq(arr[j + 1])[0].top;
+                                $box.eq(arr[j])[0].left = $box.eq(arr[j + 1])[0].left;
+                                boxMove($box.eq(arr[j]));
+                            };
+                        };
+                        // 对arr数组重新排序 先将moveIndex从数组中减掉
+                        arr.splice(moveIndex, 1);
+                        // 在将x插入到数组中, x是我们上面存好的movIndex的原始数据,插入到i的位置 i就是目标位置
+                        arr.splice(i, 0, x);
+                        //还记得This是谁么,是的This就是我们移动的那个对象,我们把他的top/left变成上面保存好的目标对象的top和left
+                        $(This)[0].top = t;
+                        $(This)[0].left = l;
+                        //将目标序列号赋给原始序列号,我们才能进行二次操作以及后续操作
+                        moveIndex = i;
+                    };
+                };
+
+            };
+        }).mouseup(function () {
+            //当我们鼠标放开,移动的该去哪去哪...
+            $(This).stop().animate({
+                left: $(This)[0].left + 'px',
+                top: $(This)[0].top + 'px'
+            });
+            //将移动事件解绑,然后把自己也解绑
+            $(this).off('mousemove');
+            $(this).off('mouseup');
+        });
+    }).find('img').mousedown(function (e) {
+        //防止默认鼠标事件
+        e.preventDefault();
+    });
+    function boxMove($obj) {
+        var l = $obj[0].left + 'px';
+        var t = $obj[0].top + 'px';
+        $obj.stop().animate({
+            left: l,
+            top: t
+        });
+    };
+
+</script>
+</body>
+</html>

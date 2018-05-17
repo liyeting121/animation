@@ -1,0 +1,80 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>index</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+
+        body { background: #000000; padding: 35px 0 0; margin: auto; text-align: center }
+
+        #nav { display: inline-block; font-size: 18px; font-family: 'Microsoft yahei'; }
+
+        #nav:before, #nav:after { margin-top: 8px; content: ""; float: left; border: 24px solid #ffffff }
+
+        #nav a:link, #nav a:visited { float: left; text-decoration: none; height: 56px; overflow: hidden; color: #000000; }
+
+        #nav:before { border-left: 24px solid transparent; }
+
+        #nav:after { border-right: 24px solid transparent; }
+
+        #nav span { display: inline-block; line-height: 48px; background-color: #ffffff; padding: 0 16px; margin-top: 8px;
+            position: relative; }
+
+        #nav span:after, #nav span:before { position: absolute; content: ""; top: 48px; border-bottom: 8px solid #ffffff; }
+
+        #nav span:after { left: 0; border-right: 8px solid #ac9357; }
+
+        #nav span:before { right: 0; border-left: 8px solid #ac9357; }
+
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+
+</head>
+<body>
+<div id="nav">
+    <a href="#"><span>Hello</span></a>
+    <a href="#"><span>Kikty</span></a>
+    <a href="#"><span>We</span></a>
+    <a href="#"><span>Are</span></a>
+    <a href="#"><span>Joker</span></a>
+</div>
+
+
+<script>
+
+    /*The First Nav*/
+    /*知识点 arguments.callee 在匿名递归函数的作用*/
+    /* (function(i){
+     i++;
+     console.log(i)
+     return i<9?arguments.callee(i):i;
+     })(3)*/
+    $(function () {
+        $('#nav a').hover(function () {
+            $(this).children('span').css({
+                'backgroundColor': getRandomColor(),
+                'fontWeight': 'bold',
+                'borderRadius': '3px 3px 0 0'
+            }).stop().animate({marginTop: '0px'}, 100)
+        }, function () {
+            $(this).children('span').css({
+                'backgroundColor': '#FFFFFF',
+                'fontWeight': 'normal',
+                'color': '#000000',
+                'borderRadius': '0 0 0 0'
+            }).stop().animate({marginTop: '8px'}, 100)
+        })
+        var getRandomColor = function () {
+            return '#' + (function (color) {
+                        return (color += '123456789abcdef'[Math.floor(Math.random() * 15)])
+                        && (color.length == 6) ? color : arguments.callee(color);
+                    })('');
+        };
+    })
+
+</script>
+</body>
+</html>

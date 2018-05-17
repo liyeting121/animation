@@ -1,0 +1,83 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>index</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; text-align: center; }
+
+        a { color: #ffffff; text-decoration: none; font-size: 16px; font-family: '黑体'; display: block; padding: 0 10px;
+            background-color: #af4442; box-shadow: 1px 1px 1px #ffffff; font-weight: bold; white-space: nowrap
+        }
+
+        .wrap { display: inline-block; height: 50px; margin: 20px auto; perspective: 800px; }
+
+        .wrap ul li { float: left; line-height: 50px; position: relative; transform-style: preserve-3d;
+            transform-origin: top; transform: rotateX(0deg); margin: 0 10px; transition: 0.5s; text-align: center; }
+
+        .wrap ul li .shaow { transform: rotateX(90deg); transform-origin: top; transition: 0.5s; height: 0; }
+
+        .wrap ul li .shaow a:not(:first-child) { transform: rotateX(-90deg); transform-origin: top; transition: 0.5s 0.1s; }
+
+        .wrap ul li a.on { background-color: #fff6fe; color: #af4442 }
+
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li>
+            <a href="#">月野兔</a>
+            <div class="shaow"><a href="#">地场卫</a><a href="#">小小兔</a><a href="#">水野亚美</a></div>
+        </li>
+        <li><a href="#">火野丽</a>
+            <div class="shaow"><a href="#">木野真琴</a><a href="#">爱野美奈子</a><a href="#">天王遥</a></div>
+        </li>
+        <li><a href="#">海王满</a>
+            <div class="shaow"><a href="#">冥王雪奈</a><a href="#">土萌萤</a><a href="#">露娜</a></div>
+        </li>
+        <li><a href="#">亚缇米丝</a>
+            <div class="shaow"><a href="#">戴安娜</a><a href="#">贝利儿女王</a><a href="#">杰戴特</a></div>
+        </li>
+        <li><a href="#">涅夫莱特</a>
+            <div class="shaow"><a href="#">佐伊赛特</a><a href="#">昆茨埃特</a><a href="#">岩</a></div>
+        </li>
+        <li><a href="#">安</a>
+            <div class="shaow"><a href="#">迪曼特王子</a><a href="#">沙斐尔</a><a href="#">埃斯梅拉特</a></div>
+        </li>
+        <li><a href="#">鲁贝于斯</a>
+            <div class="shaow"><a href="#">佩茨</a><a href="#">卡拉贝拉斯</a><a href="#">贝鲁奇</a></div>
+        </li>
+        <li><a href="#">可安</a>
+            <div class="shaow"><a href="#">黑暗淑女</a><a href="#">土萌创一</a><a href="#">游姬雅</a></div>
+        </li>
+    </ul>
+</div>
+<script>
+    var $li = $('.wrap li');
+    var $shaowA = $('.shaow a');
+    $shaowA.hover(function () {
+        $(this).addClass('on').siblings().removeClass('on')
+    })
+
+    $li.hover(function () {
+        $(this).css({
+            transform: 'rotateX(-90deg)'
+        }).children('.shaow').find('a').css({
+            transform: 'rotateX(0deg)'
+        })
+    }, function () {
+        $(this).css({
+            transform: 'rotateX(0deg)'
+        }).children('.shaow').find('a').css({
+            transform: 'rotateX(-90deg)'
+        })
+    })
+
+</script>
+</body>
+</html>

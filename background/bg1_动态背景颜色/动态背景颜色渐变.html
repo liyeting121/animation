@@ -1,0 +1,186 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>动态背景颜色渐变</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+
+        body#box { width: 100%; height: 0px; opacity: 0.3 }
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+</head>
+<body id="box">
+
+<script>
+    (function () {
+        var max=220;  //控制色表最大值
+        var min=120; //控制色表最小值
+        //初始化rgb三基色
+        var arr = [max, min, min];
+        //角度
+        var angle = 0;
+        //透明度 a
+        // var a=0;
+        //获取窗口高度
+        var height = $(window).height();
+        //获取body
+        var $box = $('#box');
+        //初始化HEX颜色1 HEX颜色2
+        var colorH1 = '', colorH2 = '';
+        //将窗口高度赋给body高度  使body不需要外部css就能铺满页面
+        $box.css({
+            height: height + 'px'
+        });
+        //定时器 定时器里执行包括 运算rgb颜色 透明度:a 变化 角度:angle 变化
+        var timer = setInterval(color, 20);
+        //color:算法函数----颜色和透明度和角度的算法
+        function color() {
+            for (var i = 0; i < arr.length; i++) {
+                if (arr[i] == max) {
+                    i+1>2?( arr[i-2]==min?(i-1<0?arr[i+2]++:arr[i-1]++):('')):(arr[i+1]==min?(i-1<0?arr[i+2]++:arr[i-1]++):(''))
+                } else if (arr[i] == min) {
+                    i+1>2?( arr[i-2]==max?(i-1<0?arr[i+2]--:arr[i-1]--):('')):(arr[i+1]==max?(i-1<0?arr[i+2]--:arr[i-1]--):(''))
+                };
+            };
+            angle += 0.2;
+            if (angle >= 360) {
+                angle = 0;
+            }
+            /* 可选透明度
+             a+=0.002;
+             if(a>=1){
+             a=1-a;
+             }*/
+
+            //将获取到的rgb颜色 用convert函数转换成对应的16进制HEX颜色表
+            colorH1 = "#" + convert(arr[1]) + convert(arr[2]) + convert(arr[0]);
+            colorH2 = "#" + convert(arr[2]) + convert(arr[0]) + convert(arr[1]);
+            console.log(arr)
+            //change函数 可选传入 r, g ,b ,角度, HEX颜色1 ,HEX颜色2
+            change(arr[0], arr[1], arr[2], angle, colorH1, colorH2)
+        };
+
+        //convert函数是 将一个rgb数值转换成16进制HEX对应数值的函数
+        function convert(x) {
+            var sRgb = x;
+            var sHex = sRgb.toString(16);
+            if (sHex.length < 2) {
+                sHex = '0' + sHex;
+            }
+            return sHex;
+        };
+
+        //change:主函数---利用css3的颜色渐变和ie的 filter滤镜 全浏览器兼容写法
+        function change(r, g, b, angle, colorH1, colorH2) {
+          //  console.log(colorH1 + "\t" + colorH2)
+            /*   var R= b,G= r,B= g;
+             var color1= "rgb("+g+","+b+","+r+")";
+             var color2= "rgb("+R+","+G+","+B+")";
+             "+angle+"deg
+             */
+            $box.css({// Webkit: Safari 4-5, Chrome 1-9
+                background: "-webkit-gradient(linear, left top, right bottom, from(" + colorH1 + "), to(" + colorH2 + "))",
+                opacity: 0.3
+            }).css({// Firefox 3.6+
+                background: "-moz-linear-gradient(left top, right bottom, " + colorH1 + " 0%, " + colorH2 + " 100%)",
+
+            }).css({// Webkit: Safari 5.1+, Chrome 10+
+                background: "-webkit-linear-gradient(left top, right bottom," + colorH1 + ", " + colorH2 + ")",
+
+            }).css({  //opera
+                background: "-o-linear-gradient(left top, right bottom," + colorH1 + ", " + colorH2 + ")",
+
+            }).css({//IE 10+
+                background: "-ms-linear-gradient(left top, right bottom," + colorH1 + ", " + colorH2 + ")",
+
+            }).css({
+                filter: "progid:DXImageTransform.Microsoft.gradient( startColorstr=" + colorH1 + ", endColorstr=" + colorH2 + ",GradientType=0 )"
+            });
+        };
+    })();
+
+
+    /*设计思路
+
+    1. 算法拆分
+    2. 根据rgb 色盘七彩规律来写相对应的算法
+       先创建一个arr的rgb数组
+     var arr=[r,g,b]
+        然后根据色盘旋转 三个参数的变化找到规律
+        我们发现rgb数值变化只有两种 : 1.增加 2.减少;
+        我们根据其他两个色值的状态确立当前色值的变化: 增加 还是 减少
+     if(g==255&&b==0) r++;
+     if(r==0&&b==255) g++;
+     if(r==255&&g==0) b++;
+     if(g==0&&b==255) r--;
+     if(r==255&&b==0) g--;
+     if(r==0&&g==255) b--;
+        我们将上面的简型数值变成我们数组形式
+     if(arr[1]==255&&arr[2]==0) arr[0]++;
+     if(arr[2]==255&&arr[0]==0) arr[1]++;
+     if(arr[0]==255&&arr[1]==0) arr[2]++;
+     if(arr[1]==0&&arr[2]==255) arr[0]--;
+     if(arr[2]==0&&arr[0]==255) arr[1]--;
+     if(arr[0]==0&&arr[1]==255) arr[2]--;
+         到这里,我们就掌握了r,g,b颜色变化的规律了
+
+     */
+
+
+
+
+/*    for (var i = 0; i < arr.length; i++) {
+        if (arr[i] == 210) { 如果我们的arr[i]==初始值,我们开始判断
+            if ((i + 1) > 2) {  如果i+1>2
+                if (arr[i - 2] == 0) {
+                    if (i - 1 < 0) {
+                        arr[i + 2]++;
+                    } else {
+                        arr[i - 1]++;
+                    };
+                };
+            } else {
+                if (arr[i + 1] == 0) {
+                    if (i - 1 < 0) {
+                        arr[i + 2]++;
+                    } else {
+                        arr[i - 1]++;
+                    };
+                };
+            };
+        } else if (arr[i] == 0) {
+            if (i + 1 > 2) {
+                if (arr[i - 2] == 210) {
+                    if (i - 1 < 0) {
+                        arr[i + 2]--;
+                    } else {
+                        arr[i - 1]--;
+                    };
+                };
+            } else {
+                if (arr[i + 1] == 210) {
+                    if (i - 1 < 0) {
+                        arr[i + 2]--;
+                    } else {
+                        arr[i - 1]--;
+                    };
+                };
+            };
+        };
+    };
+
+
+ 转化三目过程
+ arr[i-2]==0?(i-1<0?arr[i+2]++:arr[i-1]++):('')
+ arr[i+1]==0?(i-1<0?arr[i+2]++:arr[i-1]++):('')
+ i+1>2?( arr[i-2]==0?(i-1<0?arr[i+2]++:arr[i-1]++):('')):(arr[i+1]==0?(i-1<0?arr[i+2]++:arr[i-1]++):(''))
+  arr[i-2]==210?(i-1<0?arr[i+2]--:arr[i-1]--):('')
+ arr[i+1]==210?(i-1<0?arr[i+2]--:arr[i-1]--):('')
+ i+1>2?( arr[i-2]==210?(i-1<0?arr[i+2]--:arr[i-1]--):('')):( arr[i+1]==210?(i-1<0?arr[i+2]--:arr[i-1]--):(''))
+    */
+</script>
+</body>
+</html>

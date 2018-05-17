@@ -1,0 +1,129 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>卡片下拉菜单</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+
+        body { background-color: #f2efe9; }
+
+        a:active { border: none; }
+
+        .wrap { width: 300px; color: #000000; perspective: 1200px; position: relative; margin: 30px auto }
+
+        .wrap ul li { position: absolute; width: 300px; height: 59px; border-top: 1px solid #4e6a6a; border-bottom: 1px solid #4e6a6a; background-color: rgba(34, 45, 50, 0.95); transition: 0.4s ease; transform-origin: top; border-radius: 5px; }
+
+        .wrap ul li > span { float: right; border-left: 1px solid #4e6a6a; display: inline-block; height: 59px; width: 60px; position: relative; }
+
+        .wrap ul li > span:after { position: absolute; top: 18px; left: 24px; content: ''; border: 12px solid transparent; border-left-color: #ffffff; transition: 0.4s; }
+
+        .wrap ul li.active > span:after { transform-origin: 6px 6px; transform: rotateZ(90deg); -webkit-transform: rotateZ(90deg); top: 22px; left: 28px }
+
+        .wrap ul li a { display: inline-block; line-height: 59px; font-size: 16px; color: #ffffff; padding: 0 0 0 50px; transition: 0.2s; font-weight: 600; }
+
+        .wrap ul li.on { -webkit-animation: k 0.1s ease; animation: k 0.1s ease; }
+
+        .wrap ul li:not(:nth-of-type(1)):hover { background-color: rgba(36, 94, 113, 0.73); color: #ffffff; cursor: pointer; }
+
+        .wrap ul li:not(:nth-of-type(1)):hover a { color: #ffffff; }
+
+        @-webkit-keyframes k {
+            0%, 100% {
+                transform: rotateX(0deg);
+                -webkit-transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(30deg);
+                -webkit-transform: rotateX(30deg);
+            }
+
+        }
+
+        @keyframes k {
+            0%, 100% {
+                transform: rotateX(0deg);
+                -webkit-transform: rotateX(0deg);
+            }
+            50% {
+                transform: rotateX(30deg);
+                -webkit-transform: rotateX(30deg);
+            }
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body>
+<div class="wrap">
+    <ul>
+        <li style="z-index: 999"><a href="javascript:;" onfocus=this.blur();>DIV+CSS</a><span></span></li>
+        <li><a href="javascript:;" onfocus=this.blur();>javaScript</a></li>
+        <li><a href="javascript:;" onfocus=this.blur();>HTML5+CSS3</a></li>
+        <li><a href="javascript:;" onfocus=this.blur();>vue</a></li>
+        <li><a href="javascript:;" onfocus=this.blur();>Bootstrap</a></li>
+        <li><a href="javascript:;" onfocus=this.blur();>Angular</a></li>
+    </ul>
+</div>
+
+<script>
+    (function () {
+        var $li = $('.wrap ul li');
+        //设置开关 toogle 控制盒子状态
+        var toggle = false;
+        var txt = '';
+        init();
+        //li点击事件
+        $li.click(function () {
+            trans($(this));
+            //如果toggle处于false(关闭)状态的话,就是盒子收起状态
+            if (!toggle) {
+                //我们将toggle变为true(开启)状态
+                toggle = true;
+                //为第一个li添加active类名控制 小三角的动画
+                $li.eq(0).addClass('active');
+                //将每个li的 的远近属性(translateZ)清除,并且每一个的top依次递增60px,完成下拉动画
+                $li.each(function (i) {
+                    $li.eq(i).css({
+                        webkitTransform: 'translateZ(0px)',
+                        transform: 'translateZ(0px)',
+                        top: i * 60 + 'px'
+                    });
+                });
+            } else {
+                //如果盒子处于下拉状态,我们先将toggle变为false(关闭)
+                toggle = false;
+                //移除第一个li的active类名 控制小三角动画
+                $li.eq(0).removeClass('active');
+                //使盒子回到初始化状态
+                init();
+            };
+        });
+        //初始化 将每个li距离屏幕的位置依次调远 定位高度依次增加2px 展现出卡片集层次感
+        function init() {
+            $li.each(function (i) {
+                $(this).css({
+                    webkitTransform: 'translateZ(' + i * -10 + 'px)',
+                    transform: 'translateZ(' + i * -10 + 'px)',
+                    top: i * 1.2 + 'px'
+                });
+            });
+        };
+        function trans(This){
+            if (This.index() != 0) {
+                //如果点击的不是第一个li, 我们获取他的text() 和第一个li的text进行替换
+                txt = This.find('a').text();
+                This.find('a').text($li.eq(0).find('a').text());
+                $li.eq(0).find('a').text(txt);
+            } ;
+            $li.eq(0).addClass('on');
+            //在200毫秒之后自己清除掉自身的on类名,以便于下次点击
+            setTimeout(function () {$li.eq(0).removeClass('on')}, 200);
+        }
+    })()
+
+</script>
+</body>
+</html>

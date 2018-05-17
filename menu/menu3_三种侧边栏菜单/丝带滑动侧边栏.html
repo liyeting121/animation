@@ -1,0 +1,100 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>丝带滑动侧边栏</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+        body{ background-color: #282828;}
+        .bgUl{ /* Webkit: Safari 4-5, Chrome 1-9 */
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#dbdbdb), to(#999999));
+            /* Webkit: Safari 5.1+, Chrome 10+ */
+            background: -webkit-linear-gradient(top, #dbdbdb, #999999);
+            /* Firefox 3.6+ */
+            background: -moz-linear-gradient(top, #dbdbdb, #999999);
+            /* Opera 11.10+ */
+            background: -o-linear-gradient(top, #dbdbdb, #999999);
+            /* IE 10 */
+            background: -ms-linear-gradient(top, #dbdbdb, #999999);
+            /* IE < 10 */
+        }
+        .bgl{/* Webkit: Safari 4-5, Chrome 1-9 */
+            background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#ff3f3f), to(#a50000));
+            /* Webkit: Safari 5.1+, Chrome 10+ */
+            background: -webkit-linear-gradient(top, #ff3f3f, #a50000);
+            /* Firefox 3.6+ */
+            background: -moz-linear-gradient(top, #ff3f3f, #a50000);
+            /* Opera 11.10+ */
+            background: -o-linear-gradient(top, #ff3f3f, #a50000);
+            /* IE 10 */
+            background: -ms-linear-gradient(top, #ff3f3f, #a50000);
+            /* IE < 10 */
+        }
+        a{color: #484848; font-size: 16px; text-shadow: 0 1px 0 #e0e0e0;font-weight: bold;font-family: Helvetica,​arial}
+        a.on{color:#fff;text-shadow: 0 0 0 #fff;}
+        .wrap{ width: 400px; height: 200px;margin: 100px auto;}
+        .wrap .side{ width: 170px; text-align: center;margin: 0 auto;position: relative;}
+        .wrap .side ul.menu{ width: 170px;line-height: 35px;border-radius: 5px;padding: 5px 0; }
+        .wrap .side ul.menu li{ z-index: 2;position: relative }
+        .wrap .side .menu li:first-child a{ color: #980202; text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);}
+        .wrap .side .menu li:first-child a:hover{color:#fff;}
+        .wrap .side ul.menu .ribbon_warp{position: absolute; top: 8px;left: -20px;z-index: 1;transition: top 0.4s ease 0s;}
+        .wrap .side ul.menu .ribbon_warp .ribbon_rail{ width: 170px; height: 30px;padding: 0 20px;text-shadow: 0 2px 5px rgba(0,0,0,0.2);position: relative;}
+        .ribbon_rail::after,.ribbon_rail::before{border: 5px solid transparent;content: ""; height: 0; top: 100%; width: 0;position: absolute}
+        .ribbon_rail::after{ left:0;border-color:#5d0f0f #5d0f0f transparent transparent;}
+        .ribbon_rail::before{ right:0;border-color:#5d0f0f transparent transparent #5d0f0f ;}
+        .ribbon_rail>div{ width: 100%;}
+        .ribbon_rail>div::after,.ribbon_rail>div::before{ content:'';width: 0; height: 0;border: 14px solid; border-color:#ff1515 #ff1515 #920000 ;position: absolute; top: 10px;z-index: -1}
+        .ribbon_rail>div::after{left: 100%;margin-left: -10px; border-right-color:transparent;}
+        .ribbon_rail>div::before{ right: 100%;margin-right: -10px;border-left-color:transparent;}
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body>
+<div class="wrap">
+    <div class="side">
+        <ul class="menu bgUl">
+            <li><a href="#">Steve Careless</a></li>
+            <li><a href="#">Hank Azarena</a></li>
+            <li><a href="#">Joan Rivals</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Gwyneth Patron</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <li><a href="#">Johnny Dip</a></li>
+            <div class="ribbon_warp">
+                <div class="ribbon_rail bgl">
+                    <div> </div>
+                </div>
+            </div>
+        </ul>
+    </div>
+</div>
+<script>
+    var $li=$('.wrap>.side>.menu li');
+    var $ribbon=$('.ribbon_warp');
+
+        $li.hover(function(){
+            $(this).find('a').addClass('on');
+            $ribbon.css({
+                top:$(this).index()*36+8+'px',
+            });
+        },function(){
+            $(this).find('a').removeClass('on');
+            $ribbon.css({
+                top:'8px'
+            });
+        });
+
+
+</script>
+</body>
+</html>

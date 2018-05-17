@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>鼠标点击波纹</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .box {
+            width: 430px;
+            margin: 10px auto;
+        }
+
+        .wrap {
+            width: 520px;
+            height: 300px;
+            overflow: hidden;
+            display: block;
+            box-shadow: 0 0 4px #222222;
+            border-radius: 5px;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .waves {
+            background: rgba(0, 0, 0, 0) radial-gradient(rgba(0, 0, 0, 0.2) 0px, rgba(0, 0, 0, 0.3) 40%, rgba(0, 0, 0, 0.4) 50%, rgba(0, 0, 0, 0.5) 60%, rgba(255, 255, 255, 0) 70%) repeat scroll 0 0;
+            border-radius: 50%;
+            height: 100px;
+            margin-left: -50px;
+            margin-top: -50px;
+            pointer-events: none;
+            position: absolute;
+            width: 100px;
+            -webkit-transform: scale(0);
+            transform: scale(0);
+            transition: 2s;
+        }
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body style="-webkit-user-select: none;">
+<div class="box">
+    <div class="wrap">
+        <img src="img/bg.jpg" alt="" width="520" height="300" ondragstart='return false;'>
+    </div>
+</div>
+
+<script>
+    var $wrap = $('.wrap')
+    var $p = $('p');
+
+
+    (function () {
+        var timer = null;
+        var width = $wrap.width();
+        var height = $wrap.height();
+        var txt = '';
+        var timer = null;
+        var timer2 = null;
+        $wrap.on('click', fn);
+        $p.on('click', fn);
+        clear();
+        function fn(ev) {
+            ev = ev || window.event;
+            var x = ev.clientX - $(this).offset().left;
+            var y = ev.clientY - $(this).offset().top + $(window).scrollTop();
+            $(' <div class="waves"></div>').appendTo($(this));
+            clearInterval(timer2);
+            timer = setTimeout(function () {
+                $('.waves').css({
+                    left: x + 'px',
+                    top: y + 'px',
+                    webkitTransform: 'scale(13)',
+                    transform: 'scale(13)',
+                    opacity: 0,
+                });
+            }, 50);
+            clear();
+        };
+        function clear() {
+            timer2 = setInterval(function () {
+                $('.waves').remove();
+            }, 1000)
+        };
+    })()
+
+
+</script>
+</body>
+</html>
+

@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>扇形导航菜单</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+
+        body { font-size: 14px; color: #000000; }
+
+        .box { width: 100px; height: 100px; z-index: 999; margin: 0 0 250px; position: relative; }
+
+        .box ul { width: 0; height: 0; position: absolute; top: 0; left: 0; margin: 0; padding: 0; }
+
+        .box ul li { border-radius: 0 0 300px; height: 0; width: 0; }
+
+        .box ul li a { box-shadow: -5px 5px 5px rgba(133, 166, 177, 0.2); color: #fff; text-align: center; text-decoration: none; transform-origin: 0 0 0; font-size: 13px; font-weight: bold; font-family: arial; }
+
+        .wrap { height: 110px; left: 0; position: absolute; top: 0; transition: all 0s ease 1s; width: 110px; z-index: 100; }
+
+        .box ul.z1 li { left: 0; top: 0; position: absolute; }
+
+        .box ul.z2 { z-index: -1 }
+
+        .box ul.z3 { z-index: -1 }
+
+        .box li.s1 > a { display: block; width: 100px; height: 100px; border-radius: 0 0 100px; position: absolute; background: rgba(64, 151, 200, 1) }
+
+        .box li.s2 > a { display: block; width: 100px; height: 200px; border-radius: 0 0 200px; position: absolute; padding-left: 100px; background: rgba(123, 177, 200, 0.59)  }
+
+        .box ul.z3 li a { display: block; width: 100px; height: 300px; border-radius: 0 0 300px; position: absolute; padding-left: 200px; background: rgba(169, 200, 189, 0.59) }
+
+        .box ul ul { transform: rotate(90deg); transform-origin: 0; transition: all 1s ease 0s; }
+
+        .box li { transition: all 1s ease 0s; }
+
+        .box li.s2:nth-of-type(4) > a { transform: rotate(60deg) }
+
+        .box li.s2:nth-of-type(3) > a { transform: rotate(36deg) }
+
+        .box li.s2:nth-of-type(2) > a { transform: rotate(18deg) }
+
+        .box ul.z3 li:nth-of-type(5) > a { transform: rotate(72deg) }
+
+        .box ul.z3 li:nth-of-type(4) > a { transform: rotate(54deg) }
+
+        .box ul.z3 li:nth-of-type(3) > a { transform: rotate(36deg) }
+
+        .box ul.z3 li:nth-of-type(2) > a { transform: rotate(18deg) }
+
+        .box li.s1:hover ul.z2 { transform: rotate(0deg) }
+
+        .box li.s2:hover ul.z3 { transform: rotate(0deg) }
+
+        .box li.s1:hover > a { background: rgba(254, 153, 29, 1) }
+
+        .box li.s2:hover > a { background: rgba(255, 160, 61, 0.82) }
+
+        .box ul.z3 li:hover > a { background: rgba(243, 192, 129, 0.82) }
+    </style>
+    <script type="text/javascript" src="js/jquery-2.2.0.min.js"></script>
+
+</head>
+<body>
+<div class="box">
+    <div class="wrap">
+        <ul class="z1">
+            <li class="s1"><a href="">导航菜单</a>
+                <ul class="z2">
+                    <li class="s2"><a href=""><span>一起来唱歌</span></a></li>
+                    <li class="s2"><a href=""><span>我说啦</span></a>
+                        <ul class="z3">
+                            <li><a href="">啦</a></li>
+                            <li><a href="">啦啦</a></li>
+                            <li><a href="">啦啦啦</a></li>
+                            <li><a href="">啦啦啦啦</a></li>
+                            <li><a href="">啦啦啦啦啦</a></li>
+                        </ul>
+                    </li>
+                    <li class="s2"><a href=""><span>你说哒</span></a>
+                        <ul class="z3">
+                            <li><a href="">哒</a></li>
+                            <li><a href="">哒哒</a></li>
+                            <li><a href="">哒哒哒</a></li>
+                            <li><a href="">哒哒哒哒哒</a></li>
+                            <li><a href="">哒哒哒哒哒哒</a></li>
+                        </ul>
+                    </li>
+                    <li class="s2"><a href=""><span>say嗨</span></a>
+                        <ul class="z3">
+                            <li><a href="">嗨</a></li>
+                            <li><a href="">嗨嗨</a></li>
+                            <li><a href="">嗨嗨嗨</a></li>
+                            <li><a href="">嗨嗨嗨嗨</a></li>
+                            <li><a href="">嗨嗨嗨嗨嗨</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+</div>
+</body>
+</html>

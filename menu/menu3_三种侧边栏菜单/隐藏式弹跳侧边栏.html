@@ -1,0 +1,63 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>隐藏弹跳侧边栏</title>
+    <meta charset="utf-8">
+    <meta name="Author" content="liyeting">
+    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+    <style type='text/css'>
+        * { margin: 0; padding: 0; }
+        body{ height: 1000px;}
+        a{text-decoration: none; color: #000}
+        .wrap{position: fixed; top: 0; right: 0; width: 130px;margin: 100px 0 0 0;}
+        .wrap a{display: block; width: 130px; height: 30px; line-height:30px; position: relative;padding-left: 34px;border-bottom: 2px solid #ddd;right: -100px;font-weight:bold;}
+        .wrap a:hover em{background-color:#48bed8;}
+        .wrap a:hover {color:#1974A1;}
+        .wrap a em{display: block; position:absolute; top: 0; left: 0;background-color: #1974A1;font-size: 16px;color: #fff; width: 30px; height: 30px;text-align: center;}
+    </style>
+    <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+
+</head>
+<body>
+    <div class="wrap">
+        <a href="#"><em>0</em>我是一个a标签</a>
+        <a href="#"><em>1</em>我是一个a标签</a>
+        <a href="#"><em>2</em>我是一个a标签</a>
+        <a href="#"><em>3</em>我是一个a标签</a>
+        <a href="#"><em>4</em>我是一个a标签</a>
+        <a href="#"><em>5</em>我是一个a标签</a>
+        <a href="#"><em>6</em>我是一个a标签</a>
+        <a href="#"><em>7</em>我是一个a标签</a>
+        <a href="#"><em>8</em>我是一个a标签</a>
+        <a href="#"><em>9</em>我是一个a标签</a>
+        <a href="#"><em>10</em>我是一个a标签</a>
+        <a href="#"><em>11</em>我是一个a标签</a>
+        <a href="#"><em>12</em>我是一个a标签</a>
+    </div>
+    <script>
+        /*setTimeout灵活运用*/
+        var $wrap=$('.wrap');
+        var timer=null;
+        $wrap.hover(function(){
+            var This=$(this);
+            timer=setTimeout(function(){
+                This.find('a').each(function(i){
+                    var $this=$(this);
+                    setTimeout(function(){
+                        $this.stop().animate({right:'0px'},300)
+                    },i*50)
+                })
+            },300)
+
+        },function(){
+            if(timer){ clearTimeout(timer);}
+            $(this).find('a').each(function(i){
+                var $this=$(this);
+                setTimeout(function(){
+                    $this.stop().animate({right:'-100px'},300)
+                },i*50)
+            })
+        })
+    </script>
+</body>
+</html>
