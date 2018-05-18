@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+ <head>
+  <meta charset="UTF-8">
+  <meta name="Keywords" content="canvas">
+  <meta name="Description" content="use canvas to draw sth">
+  <title>canvas模拟笔迹</title>
+  <style type="text/css">
+	body{
+		background: #000;
+	}
+	#canvas{
+		border: 3px solid #ddd;
+		border-radius: 10px;
+		background: #000;
+		box-shadow:2px 2px 3px 2px #a6a9ad;
+	}
+  </style>
+ </head>
+ <body>
+	<select id="color">
+		<option>--画笔颜色--</option>
+		<option>pink</option>
+		<option>white</option>
+		<option>yellow</option>
+	</select>
+	<select id="size">
+		<option>--画笔大小--</option>
+		<option>1</option>
+		<option>5</option>
+		<option>10</option>
+		<option>20</option>
+		<option>30</option>
+	</select>
+	<center>
+		<canvas id="canvas" width="600" height="500"></canvas>
+	</center>
+	<script type="text/javascript">
+		var canvas = document.getElementById("canvas");
+		var ctx = canvas.getContext("2d");
+		canvas.onmousedown = function(e){
+			ctx.beginPath();//起始路径或者重置当前路径
+			var color = document.getElementById("color").value;
+			var size = document.getElementById("size").value;
+			var x = e.clientX - this.offsetLeft;
+			var y = e.clientY - this.offsetTop;
+			//	设置或返回两条线相交时，所创建的拐角类型
+			ctx.lineJoin = "round";
+            //	设置或返回线条的结束端点样式
+            ctx.lineCap = "round";
+            // 设置或返回笔触的颜色（可以设置渐变）
+			ctx.strokeStyle = color;
+			//设置或者返回线条宽度
+            ctx.lineWidth = size;
+            //把路径移动到画布中的指定点，不创建线条。
+			ctx.moveTo(x,y);
+			//鼠标按下并且移动的时候，创建线条
+			this.onmousemove= function(e){
+				var x = e.clientX - this.offsetLeft;
+				var y = e.clientY - this.offsetTop;
+				//添加一个新点，然后在画布中创建从该点到最后指定点的线条
+				ctx.lineTo(x,y);
+				//绘制定义好的线条
+				ctx.stroke();
+			};
+		};
+		canvas.onmouseup = function(){
+			this.onmousemove = null;
+		}
+	</script>
+ </body>
+</html>

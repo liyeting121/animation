@@ -1,0 +1,192 @@
+<!doctype html>
+<html>
+<head>
+    <!--声明当前页面编码集(中文编码<gbk,gb2312>,国际编码<utf-8>)-->
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="keywords" content="3D,banner,translate">
+    <meta name="description" content="use translate to draw a 3D banner">
+    <title>3D旋转banner</title>
+    <style type="text/css" id="css">
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #banner {
+            width: 800px;
+            height: 360px;
+            background: url("img/bg.jpg");
+            margin: 100px auto;
+            perspective: 800px;
+            position: relative;
+        }
+
+        #banner ul li {/*li翻转排列 并非并排排列*/
+            list-style: none;
+            width: 200px;
+            height: 360px;
+            float: left;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: translateZ(-180px);
+        }
+
+        #banner ul li div {
+            width: 200px;
+            height: 360px;
+            position: absolute;
+            background-repeat:no-repeat;
+            background-size: 800px 360px;
+        }
+        /*改变背景图片的位置*/
+        #banner ul li:nth-child(1) div {
+            background-position: 0;
+        }
+
+        #banner ul li:nth-child(2) div {
+            background-position: -200px;
+        }
+
+        #banner ul li:nth-child(3) div {
+            background-position: -400px;
+        }
+
+        #banner ul li:nth-child(4) div {
+            background-position: -600px;
+        }
+
+        /*找到上面*/
+        #banner ul li div:nth-child(1) {
+            bottom: 360px;
+            transform-origin: bottom;
+            transform: translateZ(180px) rotateX(90deg);
+            background-image: url("img/pic1.jpg");
+        }
+
+        /*找到下面*/
+        #banner ul li div:nth-child(2) {
+            top: 360px;
+            transform-origin: top;
+            transform: translateZ(180px) rotateX(-90deg);
+            background-image: url("img/pic2.jpg");
+        }
+
+        /*找到前面*/
+        #banner ul li div:nth-child(3) {
+            transform: translateZ(180px);
+            background-image: url("img/pic3.jpg");
+        }
+
+        /*找到后面*/
+        #banner ul li div:nth-child(4) {
+            transform: translateZ(-180px) rotateX(180deg);
+            background-image: url("img/pic4.jpeg");
+        }
+
+        /*鼠标滑动到banner的时候*/
+        /*#banner:hover ul li{transform:translateZ(-180px) rotateX(180deg);}*/
+
+        /*加动画延时执行  动画的时间值 触发动画延迟时间*/
+        #banner ul li:nth-child(1) {
+            transition: 1s 0s;
+        }
+
+        #banner ul li:nth-child(2) {
+            transition: 1s 0.2s;
+        }
+
+        #banner ul li:nth-child(3) {
+            transition: 1s 0.4s;
+        }
+
+        #banner ul li:nth-child(4) {
+            transition: 1s 0.6s;
+        }
+
+        /*布局小按钮*/
+        #banner ol {
+            position: absolute;
+            width: 120px;
+            height: 30px;
+            bottom: 10px;
+            right: 0px;
+        }
+
+        #banner ol li {
+            float: left;
+            width: 20px;
+            height: 20px;
+            background: gray;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            border-radius: 50%;
+            margin: 5px;
+            list-style: none;
+            cursor: pointer;
+        }
+
+        #banner ol li.on {
+            background: #f60;
+        }
+    </style>
+</head>
+<body>
+<div id="banner">
+    <ul>
+        <li>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+        </li>
+        <li>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+        </li>
+        <li>
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+        </li>
+        <li style="z-index:-1;">
+            <div>1</div>
+            <div>2</div>
+            <div>3</div>
+            <div>4</div>
+        </li>
+    </ul>
+
+    <ol>
+        <li class="on">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ol>
+</div>
+<script>
+    window.onload = function(){
+        var ol = document.getElementsByTagName("ol");
+        var ul = document.getElementsByTagName("ul");
+        var oLi = ol[0].getElementsByTagName("li");
+//        var uLi = ul[0].getElementsByTagName("li");
+        var ocss = document.querySelector("#css");
+        for(var i=0;i<oLi.length;i++){
+            //动态绑定
+            oLi[i].index = i;
+            oLi[i].onclick = function(){
+                ocss.innerHTML += "#banner ul li{transform:translateZ(-180px) rotateX("+this.index*-90+"deg);}";
+                for(var j=0;j<oLi.length;j++){
+                    oLi[j].className = "";
+                }
+                this.className = "on";
+            }
+        }
+    };
+</script>
+</body>
+
+</html>
