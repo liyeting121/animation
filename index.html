@@ -1,30 +1,107 @@
-<!doctype html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <!--声明当前页面编码集(中文编码<gbk,gb2312>,国际编码<utf-8>)-->
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <meta name="keywords" content="3D,banner,translate">
-    <meta name="description" content="use translate to draw a 3D banner">
-    <title>index</title>
-    <style type="text/css" id="css">
+    <meta charset="UTF-8">
+    <title>Animation Home Page</title>
+    <style type="text/css">
         * {
-            padding: 0;
-            margin: 0;
+        margin: 0;
+        padding: 0;
         }
-        
+        a{
+            text-decoration: none;
+            color:#5e7987;
+        }
+        .boxs {
+            box-shadow: 0 0 2px #474747;
+        }
+
+        #warp {
+            width: 1100px;
+            height: 100%;
+            margin: 100px auto;
+            display:flex;
+        }
+
+        #warp .box {
+            width: 200px;
+            height: 200px;
+            margin:15px;
+            border-radius: 10px;
+            position: relative;
+            padding: 15px;
+            box-shadow: 0 0 2px #fff;
+            color:#fff;
+            flex:1;
+            flex-grow:0;
+        }
+        #warp .box>span{
+            margin:5px;
+            display:inline-block;
+        }
+
+        .box .aWrap {
+            width: 150px;
+            height: 175px;
+            box-shadow: 0 0 2px #fff;
+            border-radius: 10px;
+        }
+        .box .aWrap a{
+            display:inline-block;
+            border-radius: 10px;
+            margin:5px;
+            /*opacity: 0.5;*/
+            /*球体*/
+            /*  background:radial-gradient(100px,#fff,#000);
+              border-radius:50%;
+              box-shadow:10px 10px 10px #000;*/
+        }
+
     </style>
 </head>
-<body>
-<div id="banner">
-    <ul>
-        <li>
-            <div><a href="https://liyeting121.github.io/animation/background/bg1_动态背景颜色/动态背景颜色渐变.html">动态背景颜色渐变</a></div>
-            <div><a href="https://liyeting121.github.io/animation/background/bg2_鼠标点击波纹/鼠标点击波纹.html">鼠标点击波纹</a></div>
-            <div><a href="https://liyeting121.github.io/animation/background/bg3_跟随鼠标背景/test.html">跟随鼠标背景</a></div>
-        </li>
-    </ul>
+<body style="background:#0f1423; margin-top:50px;">
+<div id="warp" class="boxs">
+    <div class="box">
+        <span>背景</span>
+        <div class="aWrap">
+            <a href="https://liyeting121.github.io/animation/background/bg1_动态背景颜色/动态背景颜色渐变.html">动态背景颜色渐变</a>
+            <a href="https://liyeting121.github.io/animation/background/bg2_鼠标点击波纹/鼠标点击波纹.html">鼠标点击波纹</a>
+            <a href="https://liyeting121.github.io/animation/background/bg3_跟随鼠标背景/test.html">跟随鼠标背景</a>
+        </div>
+    </div>
+    <div class="box">
+        <span>canvas</span>
+        <div class="aWrap">
+            <a href="https://liyeting121.github.io/animation/canvas/demo01_画板.html">画板</a>
+        </div>
+    </div>
+    <div class="box">
+        <span>css3</span>
+        <div class="aWrap">
+            <a href="https://liyeting121.github.io/animation/css3/translate01_3D旋转banner/3D旋转banner.html">3D旋转banner</a>
+        </div>
+    </div>
+    <div class="box">
+        <span>loading</span>
+        <div class="aWrap">
+            <a href="https://liyeting121.github.io/animation/loading/loading-demo/loading.html">网页加载loading</a>
+        </div>
+    </div>
+    <div class="box">
+        <span>MENU</span>
+        <div class="aWrap">
+            <a href="https://liyeting121.github.io/animation/menu/menu1_卡片下拉菜单/卡片式下拉菜单.html">卡片式下拉菜单</a>
+            <a href="https://liyeting121.github.io/animation/menu/menu2_扇形导航菜单/扇形导航菜单.html">扇形导航菜单</a>
+            <a href="https://liyeting121.github.io/animation/menu/menu3_三种侧边菜单/丝带滑动侧边栏.html">丝带滑动侧边栏</a>
+            <a href="https://liyeting121.github.io/animation/menu/menu4_三种横向菜单/3D翘板NAV.html">3D翘板</a>
+            <a href="https://liyeting121.github.io/animation/menu/menu5_可拖拽排序菜单/可拖拽排序菜单.html">可拖拽排序菜单</a>
+        </div>
+    </div>
 </div>
+<script src="canvas-nest.js" count="99" color="205,209,211"opacity="0.5"></script>
+<script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
+<script>
 
+</script>
 </body>
-
 </html>

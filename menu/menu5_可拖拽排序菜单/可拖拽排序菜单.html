@@ -6,19 +6,52 @@
     <meta name="Author" content="liyeting">
     <link rel="stylesheet" type="text/css" href="css/reset.css"/>
     <style type='text/css'>
-        * { margin: 0; padding: 0; }
-        
-        body{ background-color: #222;}
-        
-        .boxs { box-shadow: 0 0 2px #474747; }
+        * {
+            margin: 0;
+            padding: 0;
+        }
 
-        #warp { width: 660px; height: 420px; margin: 100px auto; position: relative; }
+        body {
+            background-color: #222;
+        }
 
-        #warp .box { width: 200px; height: 120px; cursor: pointer; moz-user-select: -moz-none; -moz-user-select: none; -o-user-select: none; -khtml-user-select: none; -webkit-user-select: none; -ms-user-select: none; user-select: none; border-radius: 10px; position: absolute; padding: 10px; }
+        .boxs {
+            box-shadow: 0 0 2px #474747;
+        }
 
-        .box img { border-radius: 10px; width: 200px; height: 120px; box-shadow: 0 0 2px #222222; }
+        #warp {
+            width: 660px;
+            height: 420px;
+            margin: 100px auto;
+            position: relative;
+        }
 
-        #warp .box.down { z-index: 2; }
+        #warp .box {
+            width: 200px;
+            height: 120px;
+            cursor: pointer;
+            moz-user-select: -moz-none;
+            -moz-user-select: none;
+            -o-user-select: none;
+            -khtml-user-select: none;
+            -webkit-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            border-radius: 10px;
+            position: absolute;
+            padding: 10px;
+        }
+
+        .box img {
+            border-radius: 10px;
+            width: 200px;
+            height: 120px;
+            box-shadow: 0 0 2px #222222;
+        }
+
+        #warp .box.down {
+            z-index: 2;
+        }
     </style>
     <script type="text/javascript" src="js/jquery-1.12.1.min.js"></script>
 
@@ -34,6 +67,8 @@
     <div class="box"><img src="img/6.png" alt="" width="200" height="120"></div>
     <div class="box"><img src="img/7.png" alt="" width="200" height="120"></div>
     <div class="box"><img src="img/8.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/9.png" alt="" width="200" height="120"></div>
+    <div class="box"><img src="img/9.png" alt="" width="200" height="120"></div>
     <div class="box"><img src="img/9.png" alt="" width="200" height="120"></div>
 </div>
 <script>
@@ -71,15 +106,17 @@
             if ($box.eq(arr[i])[0] == $(this)[0]) {
                 moveIndex = i;
                 break;
-            };
-        };
+            }
+            ;
+        }
+        ;
         $(document).mousemove(function (e) {
             var nX = e.pageX;
             var nY = e.pageY;
-            nX = Math.min($(window).width() - w/1.5, nX);
-            nY = Math.min($(window).height() - h /1.5, nY);
-            nX = Math.max(0+w/3, nX);
-            nY = Math.max(0+w/3, nY);
+            nX = Math.min($(window).width() - w / 1.5, nX);
+            nY = Math.min($(window).height() - h / 1.5, nY);
+            nX = Math.max(0 + w / 3, nX);
+            nY = Math.max(0 + w / 3, nY);
             // 移动对象的top值+现在鼠标位置的X坐标-对象原本的X坐标 =对象的准确top值,left类比
             var top = sT + nY - eY;
             var left = sL + nX - eX;
@@ -114,7 +151,8 @@
                                 $box.eq(arr[j + 1])[0].left = $box.eq(arr[j])[0].left;
                                 //进行运动
                                 boxMove($box.eq(arr[j + 1]));
-                            };
+                            }
+                            ;
                         } else {
                             //从后往前运动
                             for (var j = i; j < moveIndex; j++) {
@@ -122,8 +160,10 @@
                                 $box.eq(arr[j])[0].top = $box.eq(arr[j + 1])[0].top;
                                 $box.eq(arr[j])[0].left = $box.eq(arr[j + 1])[0].left;
                                 boxMove($box.eq(arr[j]));
-                            };
-                        };
+                            }
+                            ;
+                        }
+                        ;
                         // 对arr数组重新排序 先将moveIndex从数组中减掉
                         arr.splice(moveIndex, 1);
                         // 在将x插入到数组中, x是我们上面存好的movIndex的原始数据,插入到i的位置 i就是目标位置
@@ -133,10 +173,13 @@
                         $(This)[0].left = l;
                         //将目标序列号赋给原始序列号,我们才能进行二次操作以及后续操作
                         moveIndex = i;
-                    };
-                };
+                    }
+                    ;
+                }
+                ;
 
-            };
+            }
+            ;
         }).mouseup(function () {
             //当我们鼠标放开,移动的该去哪去哪...
             $(This).stop().animate({
